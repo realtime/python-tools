@@ -2,6 +2,7 @@
 
 import argparse
 import csv
+import itertools
 
 parser = argparse.ArgumentParser(description='convert CSV file to C array')
 parser.add_argument('ifile', type=argparse.FileType('r'), default='-')
@@ -25,11 +26,12 @@ if len(data) == 1:              # only one line of data
 def format_row(row):
     formatted_elements = [str.rjust(element, args.width) for element in row];
     return str.join(', ', formatted_elements)
-     
+
 if type(data[0]) is list:       # 2D array
     args.ofile.write('{\n')
-    for row in data:
+    for row in data[:-1]:
         args.ofile.write('\t{ ' + format_row(row) + ' },\n')
+    args.ofile.write('\t{ ' + format_row(data[-1]) + ' }\n')
     args.ofile.write('};\n')
 else:                           # 1D array
     args.ofile.write('{ ' + format_row(data) + ' };\n')
