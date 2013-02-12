@@ -2,7 +2,6 @@
 
 import argparse
 import csv
-import itertools
 
 parser = argparse.ArgumentParser(description='convert CSV file to C array')
 parser.add_argument('ifile', type=argparse.FileType('r'), default='-')
